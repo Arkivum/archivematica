@@ -16,6 +16,7 @@ about Archivematica.
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+
 ## Reporting a security vulnerability
 
 The Archivematica development team takes security seriously and will investigate
@@ -38,8 +39,7 @@ the following information in your email:
   system and dependency versions.
 - Steps to reproduce the issue.
 - The resulting error or vulnerability.
-- If there are any error logs related to the issue, please include the
-  relevant parts as well.
+- If there are any error logs related to the issue, please include the relevant parts as well.
 
 Your report will be acknowledged within 2 business days, and we’ll follow up
 with a more detailed response indicating the next steps we intend to take
@@ -70,8 +70,7 @@ process, involving the following steps:
 
 - Confirm the problem and determine the affected versions.
 - Audit code to find any similar potential problems.
-- Prepare fixes for all releases still under maintenance. These fixes will be
-  released as fast as possible.
+- Prepare fixes for all releases still under maintenance. These fixes will be released as fast as possible.
 
 Once new releases and/or security patches have been prepared, tested, and made
 publicly available, we will also make a post in the Archivematica user forum
