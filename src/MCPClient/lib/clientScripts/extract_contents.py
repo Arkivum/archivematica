@@ -232,6 +232,24 @@ def main(job, transfer_uuid, sip_directory, date, task_uuid, delete=False):
                     sip_directory,
                     file_to_be_extracted_path,
                 )
+            
+            # if extraction was attempted and with no errors, but no files were produced
+            # then this means we need to create an Event to say extraction was done
+            # otherwise, package extraction will be attempted again.  
+            if not extractedFiles:
+                insertIntoEvents(fileUUID=file_.uuid,
+                     eventType='unpacking',
+                     eventDateTime=date,
+                     eventDetail='Extraction attempted, but no files were found in the package (' + str(file_.uuid) + ')',
+                     eventOutcome='',
+                     eventOutcomeDetailNote='')
+            else:
+                insertIntoEvents(fileUUID=file_.uuid,
+                     eventType='unpacking',
+                     eventDateTime=date,
+                     eventDetail='Extraction attempted, and files have been extracted from the package (' + str(file_.uuid) + ')',
+                     eventOutcome='',
+                     eventOutcomeDetailNote='')
 
             if transfer_mdl.diruuids:
                 create_extracted_dir_uuids(
