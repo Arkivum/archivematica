@@ -242,14 +242,14 @@ def main(job, transfer_uuid, sip_directory, date, task_uuid, delete=False):
                 insertIntoEvents(fileUUID=file_.uuid,
                      eventType='unpacking',
                      eventDateTime=date,
-                     eventDetail='Extraction attempted, but no files were found in the package (' + file_.uuid + ')',
+                     eventDetail='Extraction attempted, but no files were found in the package (' + str(file_.uuid) + ')',
                      eventOutcome='',
                      eventOutcomeDetailNote='')
             else: 
                 insertIntoEvents(fileUUID=file_.uuid,
                      eventType='unpacking',
                      eventDateTime=date,
-                     eventDetail='Extraction attempted, and files have been extracted from the package (' + file_.uuid + ')',
+                     eventDetail='Extraction attempted, and files have been extracted from the package (' + str(file_.uuid) + ')',
                      eventOutcome='',
                      eventOutcomeDetailNote='')
 
