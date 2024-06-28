@@ -123,6 +123,11 @@ CONFIG_MAPPING = {
         "option": "oidc_authentication",
         "type": "boolean",
     },
+    "oidc_allow_local_authentication": {
+        "section": "Dashboard",
+        "option": "oidc_allow_local_authentication",
+        "type": "boolean",
+    },
     "storage_service_client_timeout": {
         "section": "Dashboard",
         "option": "storage_service_client_timeout",
@@ -201,6 +206,7 @@ ldap_authentication = False
 csrf_trusted_origins =
 use_x_forwarded_host = False
 oidc_authentication = False
+oidc_allow_local_authentication = False
 storage_service_client_timeout = 86400
 storage_service_client_quick_timeout = 5
 agentarchives_client_timeout = 300
@@ -626,6 +632,10 @@ if CAS_AUTHENTICATION:
 
 OIDC_AUTHENTICATION = config.get("oidc_authentication")
 if OIDC_AUTHENTICATION:
+    OIDC_REDIRECT_MIDDLEWARE = config.get("oidc_allow_local_authentication")
+    if not OIDC_REDIRECT_MIDDLEWARE:
+        MIDDLEWARE.append("middleware.common.OidcRedirectMiddleware")
+
     ALLOW_USER_EDITS = False
 
     AUTHENTICATION_BACKENDS += ["components.accounts.backends.CustomOIDCBackend"]

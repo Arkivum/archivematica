@@ -21,6 +21,7 @@ import traceback
 import elasticsearch
 from django.conf import settings
 from django.http import HttpResponseServerError
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template import TemplateDoesNotExist
 from django.utils.deprecation import MiddlewareMixin
@@ -122,3 +123,12 @@ class CustomShibbolethRemoteUserMiddleware(ShibbolethRemoteUserMiddleware):
         entitlements = shib_meta["entitlement"].split(";")
         user.is_superuser = settings.SHIBBOLETH_ADMIN_ENTITLEMENT in entitlements
         user.save()
+
+
+class OidcRedirectMiddleware():
+    def redirect_to_oidc_provider():
+        if settings.OIDC_ALLOW_LOCAL_AUTHENTICATION:
+            return
+
+        # Redirect to OIDC provider bypassing AM login window.
+        return HttpResponseRedirect(settings.OIDC_OP_AUTHORIZATION_ENDPOINT)
