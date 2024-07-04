@@ -30,6 +30,7 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import gettext as _
+from django.views import View
 from main.models import UserProfile
 from tastypie.models import ApiKey
 
@@ -193,3 +194,9 @@ def delete(request, id):
         return redirect("accounts:accounts_index")
     except Exception:
         raise Http404
+
+
+class OidcLoginView(View):
+    def get(self, request, *args, **kwargs):
+        return redirect(reverse('oidc_authentication_init'))
+    

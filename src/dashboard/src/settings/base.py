@@ -638,6 +638,8 @@ if OIDC_AUTHENTICATION:
 
     ALLOW_USER_EDITS = False
 
+    LOGIN_URL = "/oidc/accounts/login/"
+
     AUTHENTICATION_BACKENDS += ["components.accounts.backends.CustomOIDCBackend"]
     LOGIN_EXEMPT_URLS.append(r"^oidc")
     INSTALLED_APPS += ["mozilla_django_oidc"]

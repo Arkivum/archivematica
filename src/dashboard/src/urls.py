@@ -18,6 +18,7 @@ from django.conf import settings
 from django.urls import include
 from django.urls import path
 from django.urls import re_path
+from components.accounts.views import OidcLoginView
 
 urlpatterns = [
     path("mcp/", include("components.mcp.urls")),
@@ -54,6 +55,7 @@ if settings.PROMETHEUS_ENABLED:
 
 if settings.OIDC_AUTHENTICATION:
     urlpatterns += [path("oidc/", include("mozilla_django_oidc.urls"))]
+    urlpatterns += [path("oidc/accounts/login/", OidcLoginView.as_view(), name='login')]
 
 if "shibboleth" in settings.INSTALLED_APPS:
     urlpatterns += [path("shib/", include("shibboleth.urls"))]

@@ -129,6 +129,3 @@ class OidcRedirectMiddleware():
     def redirect_to_oidc_provider():
         if settings.OIDC_ALLOW_LOCAL_AUTHENTICATION:
             return
-
-        # Redirect to OIDC provider bypassing AM login window.
-        return HttpResponseRedirect(settings.OIDC_OP_AUTHORIZATION_ENDPOINT)
