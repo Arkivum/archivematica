@@ -206,7 +206,7 @@ ldap_authentication = False
 csrf_trusted_origins =
 use_x_forwarded_host = False
 oidc_authentication = False
-oidc_allow_local_authentication = False
+oidc_allow_local_authentication = True
 storage_service_client_timeout = 86400
 storage_service_client_quick_timeout = 5
 agentarchives_client_timeout = 300
@@ -637,8 +637,6 @@ if OIDC_AUTHENTICATION:
         MIDDLEWARE.append("middleware.common.OidcRedirectMiddleware")
 
     ALLOW_USER_EDITS = False
-
-    LOGIN_URL = "/oidc/accounts/login/"
 
     AUTHENTICATION_BACKENDS += ["components.accounts.backends.CustomOIDCBackend"]
     LOGIN_EXEMPT_URLS.append(r"^oidc")

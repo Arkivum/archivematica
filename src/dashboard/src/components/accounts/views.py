@@ -31,6 +31,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.views import View
+from django.contrib.auth.views import LoginView
 from main.models import UserProfile
 from tastypie.models import ApiKey
 
@@ -196,7 +197,8 @@ def delete(request, id):
         raise Http404
 
 
-class OidcLoginView(View):
+class CustomOIDCLoginView(LoginView):
     def get(self, request, *args, **kwargs):
+        if settings.OIDC_ALLOW_LOCAL_AUTHENTICATION:
+            return super().dispatch(request, *args, **kwargs)
         return redirect(reverse('oidc_authentication_init'))
-    
