@@ -632,9 +632,9 @@ if CAS_AUTHENTICATION:
 
 OIDC_AUTHENTICATION = config.get("oidc_authentication")
 if OIDC_AUTHENTICATION:
-    OIDC_REDIRECT_MIDDLEWARE = config.get("oidc_allow_local_authentication")
-    if not OIDC_REDIRECT_MIDDLEWARE:
-        MIDDLEWARE.append("middleware.common.OidcRedirectMiddleware")
+    OIDC_ALLOW_LOCAL_AUTHENTICATION = config.get("oidc_allow_local_authentication")
+    #if not OIDC_ALLOW_LOCAL_AUTHENTICATION:
+    #    MIDDLEWARE.append("middleware.common.OidcRedirectMiddleware")
 
     ALLOW_USER_EDITS = False
 

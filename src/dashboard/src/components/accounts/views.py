@@ -200,5 +200,5 @@ def delete(request, id):
 class CustomOIDCLoginView(LoginView):
     def get(self, request, *args, **kwargs):
         if settings.OIDC_ALLOW_LOCAL_AUTHENTICATION:
-            return super().dispatch(request, *args, **kwargs)
+            return super().get(request, *args, **kwargs)
         return redirect(reverse('oidc_authentication_init'))
