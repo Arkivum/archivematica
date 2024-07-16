@@ -125,7 +125,9 @@ class CustomShibbolethRemoteUserMiddleware(ShibbolethRemoteUserMiddleware):
         user.save()
 
 
-class OidcRedirectMiddleware():
-    def redirect_to_oidc_provider():
-        if settings.OIDC_ALLOW_LOCAL_AUTHENTICATION:
-            return
+# IS query param present?
+# Is this the login path?
+#class OidcRedirectMiddleware():
+#    def redirect_to_oidc_provider():
+#        if settings.OIDC_ALLOW_LOCAL_AUTHENTICATION:
+#            return

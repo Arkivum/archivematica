@@ -1,7 +1,31 @@
 import os
 
-OIDC_RP_CLIENT_ID = os.environ.get("OIDC_RP_CLIENT_ID", "")
-OIDC_RP_CLIENT_SECRET = os.environ.get("OIDC_RP_CLIENT_SECRET", "")
+def get_oidc_providers(oidc_provider_names):
+    providers = {}
+
+    for provider_name in oidc_provider_names:
+        provider_name = provider_name.strip()
+        client_id = os.environ.get(f'OIDC_PROVIDER_CLIENT_ID_{provider_name.upper()}')
+        client_secret = os.environ.get(f'OIDC_PROVIDER_CLIENT_SECRET_{provider_name.upper()}')
+
+        if client_id and client_secret:
+            providers[provider_name] = {
+                'OIDC_RP_CLIENT_ID': client_id,
+                'OIDC_RP_CLIENT_SECRET': client_secret,
+            }
+
+    return providers
+
+OIDC_PRIMARY_PROVIDER_NAME = os.environ.get("OIDC_PRIMARY_PROVIDER_NAME", "primary")
+OIDC_PROVIDER_NAMES = os.environ.get('OIDC_PROVIDER_NAMES', OIDC_PRIMARY_PROVIDER_NAME).split(',')
+OIDC_PROVIDER_QUERY_PARAM_NAME = os.environ.get("OIDC_PROVIDER_QUERY_PARAM_NAME", "secondary")
+
+OIDC_PROVIDERS = get_oidc_providers(OIDC_PROVIDER_NAMES)
+if not OIDC_PROVIDERS:
+    OIDC_PROVIDERS[OIDC_PRIMARY_PROVIDER_NAME] = {
+        'OIDC_RP_CLIENT_ID': os.environ.get("OIDC_RP_CLIENT_ID", ""),
+        'OIDC_RP_CLIENT_SECRET': os.environ.get("OIDC_RP_CLIENT_SECRET", ""),
+    }
 
 OIDC_OP_AUTHORIZATION_ENDPOINT = ""
 OIDC_OP_TOKEN_ENDPOINT = ""

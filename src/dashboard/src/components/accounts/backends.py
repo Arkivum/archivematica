@@ -4,6 +4,7 @@ from components.helpers import generate_api_key
 from django.conf import settings
 from django_auth_ldap.backend import LDAPBackend
 from django_cas_ng.backends import CASBackend
+from django.core.exceptions import ImproperlyConfigured
 from josepy.jws import JWS
 from mozilla_django_oidc.auth import OIDCAuthenticationBackend
 from shibboleth.backends import ShibbolethRemoteUserBackend
@@ -41,6 +42,33 @@ class CustomOIDCBackend(OIDCAuthenticationBackend):
     """
     Provide OpenID Connect authentication
     """
+
+    #@staticmethod
+    #def get_settings(attr, *args):
+    #    request = args[0]
+    #    provider = request.GET.get(settings.OIDC_PROVIDER_QUERY_PARAM_NAME, settings.OIDC_PRIMARY_PROVIDER_NAME)
+    #    setting = settings.OIDC_PROVIDERS.get(provider, {}).get(attr)
+
+    #    if not setting:
+    #        raise ImproperlyConfigured(f"Setting {attr} for provider {provider} not found")
+
+    #    return setting
+
+    @staticmethod
+    def get_settings(attr, *args):
+        # Retrieve the settings directly from the configured settings
+        return getattr(settings, attr, None)
+
+    #def authenticate(self, *args, **kwargs):
+    #    request = args[0]
+    #    provider = request.GET.get(settings.OIDC_PROVIDER_QUERY_PARAM_NAME, settings.OIDC_PRIMARY_PROVIDER_NAME)
+    #    client_id =settings.OIDC_PROVIDERS.get(provider, {}).get('OIDC_RP_CLIENT_ID')
+    #    client_secret = settings.OIDC_PROVIDERS.get(provider, {}).get('OIDC_RP_CLIENT_SECRET')
+
+    #    setattr(settings, 'OIDC_RP_CLIENT_ID', client_id)
+    #    setattr(settings, 'OIDC_RP_CLIENT_SECRET', client_secret)
+
+    #    return super().authenticate(*args, **kwargs)
 
     def get_userinfo(self, access_token, id_token, verified_id):
         """

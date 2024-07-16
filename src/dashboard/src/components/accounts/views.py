@@ -29,11 +29,14 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from django.views import View
 from django.contrib.auth.views import LoginView
 from main.models import UserProfile
 from tastypie.models import ApiKey
+
+#from django.core.exceptions import ImproperlyConfigured
 
 
 @user_passes_test(lambda u: u.is_superuser, login_url="/forbidden/")
@@ -198,7 +201,23 @@ def delete(request, id):
 
 
 class CustomOIDCLoginView(LoginView):
+    @cached_property
+    def provider(self):
+        provider_name = self.request.GET.get(settings.OIDC_PROVIDER_QUERY_PARAM_NAME, settings.OIDC_PRIMARY_PROVIDER_NAME)
+        return provider_name
+
+    def get_oidc_settings(self):        
+        provider_settings = settings.OIDC_PROVIDERS.get(self.provider, {})
+        setattr(settings, 'OIDC_RP_CLIENT_ID', provider_settings.get('OIDC_RP_CLIENT_ID'))
+        setattr(settings, 'OIDC_RP_CLIENT_SECRET', provider_settings.get('OIDC_RP_CLIENT_SECRET'))
+
     def get(self, request, *args, **kwargs):
+        self.get_oidc_settings()
+
         if settings.OIDC_ALLOW_LOCAL_AUTHENTICATION:
             return super().get(request, *args, **kwargs)
-        return redirect(reverse('oidc_authentication_init'))
+
+        login_url = reverse('oidc_authentication_init')
+
+        # Redirect to the OIDC authentication URL with the provider set
+        return redirect(f'{login_url}')
