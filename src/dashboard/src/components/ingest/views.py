@@ -400,7 +400,7 @@ def ingest_normalization_report(request, uuid, current_page=None):
             o["access_derivative_validation_failed"],
         ) = derivative_validation_report(o)
 
-    results_per_page = 10
+    results_per_page = 5000
 
     if current_page is None:
         current_page = 1
