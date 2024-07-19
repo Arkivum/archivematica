@@ -216,10 +216,10 @@ class ReplacementDict(dict):
         """
         args = []
         for key, value in self.items():
-            optname = re.sub(r"([A-Z]+)", r"-\1", key[1:-1]).lower()
-            opt = f"--{optname}={value}"
-            args.append(opt)
-
+            if not key == '%originalLocation%':
+                optname = re.sub(r"([A-Z]+)", r"-\1", key[1:-1]).lower()
+                opt = f"--{optname}={value}"
+                args.append(opt)
         return args
 
 
