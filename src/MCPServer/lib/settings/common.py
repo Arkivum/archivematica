@@ -126,6 +126,8 @@ CONFIG_MAPPING = {
     "db_password": {"section": "client", "option": "password", "type": "string"},
     "db_host": {"section": "client", "option": "host", "type": "string"},
     "db_port": {"section": "client", "option": "port", "type": "string"},
+    "db_conn_max_age": {"section": "client", "option": "conn_max_age", "type": "int"},
+    "db_conn_health_checks": {"section": "client", "option": "conn_health_checks", "type": "boolean"},
 }
 
 
@@ -158,6 +160,8 @@ host = localhost
 database = MCP
 port = 3306
 engine = django.db.backends.mysql
+conn_max_age = 3600
+conn_health_checks = true
 
 [email]
 backend = django.core.mail.backends.console.EmailBackend
@@ -195,7 +199,8 @@ DATABASES = {
         "PASSWORD": config.get("db_password"),
         "HOST": config.get("db_host"),
         "PORT": config.get("db_port"),
-        "CONN_MAX_AGE": 3600,  # 1 hour
+        "CONN_MAX_AGE": config.get("db_conn_max_age"),
+        "CONN_HEALTH_CHECKS": config.get("db_conn_health_checks"),
     }
 }
 
